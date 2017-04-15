@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            Intent Entrar = new Intent(Login.this, Inicio.class);
+                            Intent Entrar = new Intent(Login.this, Menu.class);
                             startActivity(Entrar);
                             //finish();
                         }

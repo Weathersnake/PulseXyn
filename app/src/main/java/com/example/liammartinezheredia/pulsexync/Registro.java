@@ -32,7 +32,7 @@ public class Registro extends AppCompatActivity {
 
     public void Regresarlogin(View miV){
     //te regresa a login
-        Intent regresar = new Intent(this,menu.class);
+        Intent regresar = new Intent(this,Login.class);
         startActivity(regresar);
         finish();
     }

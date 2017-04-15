@@ -3,7 +3,7 @@ package com.example.liammartinezheredia.pulsexync;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class menu extends AppCompatActivity {
+public class Menu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
