@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
+
+
     boolean emailfull = false;
     boolean contrafull = false;
 
@@ -25,6 +28,8 @@ public class Login extends AppCompatActivity {
 
 
     public void Validar (View miV){
+
+//
 
         //verifica que esten llenos los campos
 
@@ -38,23 +43,54 @@ public class Login extends AppCompatActivity {
             //Toast.makeText(this, "Escribe tu correo", Toast.LENGTH_SHORT).show();
 
         } else {
-            emailfull = true;
+            try{
+                for(int i = 0; i<email.length(); ++i){
+                    if(email.charAt(i)=='@'){
+                        for(int j = i+1; j<email.length(); ++j){
+                            if(email.charAt(j)=='.'){
+                                if(email.length()>=j+3){
+                                    if(email.charAt(j+1)=='c'){
+                                        if(email.charAt(j+2)=='o'){
+                                            if(email.charAt(j+3)=='m'){
+                                                emailfull = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception e){
+                Emailtxt.setError("Correo no valido");
+            }
+
+
 
 
         }
         if (contra.isEmpty()) {
             Contratxt.setError("Escribe tu contraseña");
             //Toast.makeText(this, "Escribe tu contraseña", Toast.LENGTH_SHORT).show();
+            CerrarTeclado(miV);
 
         } else {
             contrafull = true;
-
+            CerrarTeclado(miV);
 
         }
         if ((emailfull && contrafull) == true) {
             Entrar(miV);
         }
 
+    }
+
+    public void CerrarTeclado(View miV){
+        InputMethodManager imm =
+                (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(miV.getWindowToken(), 0);
     }
 
     public void Entrar (View miV){
@@ -64,14 +100,14 @@ public class Login extends AppCompatActivity {
         try {
 
             ProgressDialog progressDialog = new ProgressDialog(Login.this);
+
             progressDialog.setTitle("Autentificando datos...");
             progressDialog.setMessage("Por favor espere");
             progressDialog.show();
-
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            Intent Entrar = new Intent(Login.this, Menu.class);
+                            Intent Entrar = new Intent(Login.this, Inicio.class);
                             startActivity(Entrar);
                             //finish();
                         }
@@ -93,6 +129,11 @@ public class Login extends AppCompatActivity {
         startActivity(Nuevousuario);
         finish();
     }
-
+    /*private void PDialog() {
+        progressDialog = new ProgressDialog(this,R.style.CustomDialog);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Logging in. Please wait.");
+        progressDialog.show();
+    }*/
 
 }

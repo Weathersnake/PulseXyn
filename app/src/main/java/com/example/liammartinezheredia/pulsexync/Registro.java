@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class Registro extends AppCompatActivity {
     }
 
 
+
+
     String nombre ;
     String email;
     String contra;
@@ -31,7 +34,7 @@ public class Registro extends AppCompatActivity {
 
 
     public void Regresarlogin(View miV){
-    //te regresa a login
+        //te regresa a login
         Intent regresar = new Intent(this,Login.class);
         startActivity(regresar);
         finish();
@@ -90,7 +93,29 @@ public class Registro extends AppCompatActivity {
             emailtxt.setError("Escribe tu correo");
 
         }else{
-            emailfull = true;
+            try {
+                for (int i = 0; i < email.length(); ++i) {
+                    if (email.charAt(i) == '@') {
+                        for (int j = i + 1; j < email.length(); ++j) {
+                            if (email.charAt(j) == '.') {
+                                if (email.length() >= j + 3) {
+                                    if (email.charAt(j + 1) == 'c') {
+                                        if (email.charAt(j + 2) == 'o') {
+                                            if (email.charAt(j + 3) == 'm') {
+                                                emailfull = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception e){
+                emailtxt.setError("Correo no valido");
+            }
         }
         if (contra.isEmpty()){
             contratxt.setError("Escribe una contraseña");
@@ -99,19 +124,28 @@ public class Registro extends AppCompatActivity {
         }
         if (contra.equals(contra2)){
             contraigual = true;
+            CerrarTeclado(miV);
+
         }else{
             contra2txt.setError("La contraseña no coincide ");
+            CerrarTeclado(miV);
         }
 
         if((nombrefull && emailfull && contrafull && contraigual) == true){
             CrearCuenta(miV);
         }else{
-             Toast.makeText(this,"Llena los campos",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Llena los campos",Toast.LENGTH_SHORT).show();
         }
 
 
 
 
+    }
+
+    public void CerrarTeclado(View miV){
+        InputMethodManager imm =
+                (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(miV.getWindowToken(), 0);
     }
 
     public void CrearCuenta(View miv){
